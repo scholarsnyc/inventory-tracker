@@ -22,7 +22,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-var couch = new(cradle.Connection)(process.env.CLOUDANT_URL);
+var couch = new(cradle.Connection)(process.env['CLOUDANT_URL']);
 var db = couch.database('inventory');
 
 app.get('/', function(req, res) {
@@ -32,11 +32,7 @@ app.get('/', function(req, res) {
   });
 });
 
-var defaultItemValues = { title: 'Add an item',
-                          model: '',
-                          room: '',
-                          manufacturer: ''
-                        }
+var defaultItemValues = { title: 'Add an item', model: '', room: '', manufacturer: '' }
 
 app.get('/create', function(req, res){
   res.render('create', defaultItemValues);
