@@ -2,6 +2,7 @@ var express = require('express');
 var http    = require('http');
 var cradle  = require('cradle');
 var _       = require('underscore');
+var couch   = require('./lib/parse-cloudant-url')(process.env.CLOUDANT_URL)
 
 var app = express();
 
@@ -22,7 +23,11 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-var couch = new(cradle.Connection)(process.env['CLOUDANT_URL']);
+var couch = new(cradle.Connection)(couch.url, 443, {
+    secure: true,
+    auth: _.omit(couch, 'url')
+});
+
 var db = couch.database('inventory');
 
 app.get('/', function(req, res) {
