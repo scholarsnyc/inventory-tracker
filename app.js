@@ -22,7 +22,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-var couch = new(cradle.Connection)(process.env.couch);
+var couch = new(cradle.Connection)(process.env.CLOUDANT_URL);
 var db = couch.database('inventory');
 
 app.get('/', function(req, res) {
@@ -32,8 +32,14 @@ app.get('/', function(req, res) {
   });
 });
 
+var defaultItemValues = { title: 'Add an item',
+                          model: '',
+                          room: '',
+                          manufacturer: ''
+                        }
+
 app.get('/create', function(req, res){
-  res.render('create', { title: 'Add an item' });
+  res.render('create', defaultItemValues);
 });
 
 app.post('/create', function(req, res){
@@ -43,7 +49,8 @@ app.post('/create', function(req, res){
   
   db.save(req.body, function (err, item) {
     if (err) res.status(500).send(err);
-    res.send(item);
+    var nextItem = _.omit(item, ['_id', 'assetTag', 'serial']);
+    res.render('create', _.extend(defaultItemValues, nextItem));
   });
 });
 

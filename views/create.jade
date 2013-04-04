@@ -20,11 +20,11 @@ html(lang='en')
                 label Inventory Tag
                 input(type='text', name='_id', placeholder='3SCAC0000000000', required, autofocus)
                 label Manufacturer
-                input(type='text', name='manufacturer', placeholder='Apple')
+                input(type='text', name='manufacturer', placeholder='Apple', value='#{manufacturer || ''}')
                 label Model
-                input(type='text', name='model', placeholder='iMac')
+                input(type='text', name='model', placeholder='iMac', value='#{model || ''}')
                 label Current Room
-                input(type='number', name='room', min='100', max='345')
+                input(type='number', name='room', min='100', max='345', value='#{room || ''}')
                 label DOE Asset Tag
                 input(type='text', name='assetTag', placeholder='DOE-AP0000000')
                 label Serial Number
