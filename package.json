@@ -1,0 +1,16 @@
+{
+  "name": "inventory-tracker",
+  "version": "0.0.1",
+  "private": "true",
+  "description": "A system to track inventory.",
+  "main": "app.js",
+  "dependencies": {
+    "cradle": "~0.6.4",
+    "express": "~3.1.1",
+    "jade": "~0.28.2",
+    "underscore": "~1.4.4",
+  },
+  "devDependencies": {},
+  "author": "Steve Kinney",
+  "license": "MIT"
+}
