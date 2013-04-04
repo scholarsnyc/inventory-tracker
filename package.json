@@ -10,6 +10,13 @@
     "jade": "~0.28.2",
     "underscore": "~1.4.4",
   },
+  "engines": {
+      "node": "0.8.x",
+      "npm": "1.1.x"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
   "devDependencies": {},
   "author": "Steve Kinney",
   "license": "MIT"
