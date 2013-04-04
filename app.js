@@ -33,14 +33,18 @@ app.get('/', function(req, res) {
 });
 
 app.get('/create', function(req, res){
-  res.render('create', { title: 'Add an item'});
+  res.render('create', { title: 'Add an item' });
 });
 
 app.post('/create', function(req, res){
   for (key in req.body) {
     if (req.body[key] === "") delete req.body[key];
   }
-  res.send(req.body);
+  
+  db.save(req.body, function (err, item) {
+    if (err) res.status(500).send(err);
+    res.send(item);
+  });
 });
 
 app.get('/items/:item', function(req, res){
