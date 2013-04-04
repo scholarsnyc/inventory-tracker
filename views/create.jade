@@ -1,0 +1,52 @@
+doctype 5
+html(lang='en')
+  head
+    title= title
+    link(href='/css/bootstrap.min.css', rel='stylesheet', type='text/css')
+    link(href='/css/bootstrap-responsive.min.css', rel='stylesheet', type='text/css')
+    script(src='/js/jquery.js')
+  body
+    .container
+      .row
+        .span12
+          h1= title
+      .row
+        .span6
+          form(action='/create', method='post')
+            fieldset
+              legend New item
+              #fields
+                label Inventory Tag
+                input(type='text', name='_id', placeholder='3SCAC0000000000', required, autofocus)
+                label Manufacturer
+                input(type='text', name='manufacturer', placeholder='Apple')
+                label Model
+                input(type='text', name='model', placeholder='iMac')
+                label Current Room
+                input(type='number', name='room', min='100', max='345')
+                label DOE Asset Tag
+                input(type='text', name='assetTag', placeholder='DOE-AP0000000')
+                label Serial Number
+                input(type='text', name='serial')
+                label Item Type
+                select(name='type')
+                  option
+                  option Desktop Computer
+                  option Laptop Computer
+                  option SMART Board
+                  option Printer
+                  option Tablet
+              button.btn.btn-primary.btn-block.btn-large(type='submit') Submit
+        form.span6
+          legend Add an attribute to this item
+          .row
+            .span3
+              label Name
+              input(type='text', id='new-label', placeholder='Serial Number')
+            .span3
+              label Field Name
+              input(type='text', id='new-field', placeholder='serial')
+          .row
+            .span6
+              button#create-field.btn.btn-block(href='#', type='submit') Submit
+    script(src='/js/create.js')

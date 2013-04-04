@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Inventory Sucker</title>
+    <link href="style.css"></style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="tabletop.js"></script>
+    <script>
+      $(function(){
+        
+        Tabletop.init( { key: '0Aq1QkjSPfNNjdDVxc1dQYXpXYVoxUDZCcGFjZzE4Ync',
+                          callback: addToPage,
+                          simpleSheet: true } );
+      
+        function addToPage(data, tabletop) {
+          data.forEach(function (d) {
+            
+            d._id = d.id;
+            delete d.id;
+            d.bluetoothAddress = d.bluetoothaddress;
+            delete d.bluetoothaddress;
+            d.wifiAddress = d.wifiaddress;
+            delete d.wifiaddress;
+            delete d.rowNumber;
+            
+            // $.post("http://127.0.0.1:5984/inventory", d);
+            
+          });
+          
+          $('<div></div>').text(JSON.stringify(data)).appendTo($('body'))
+        }
+      });                
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <table>
+        <thead>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

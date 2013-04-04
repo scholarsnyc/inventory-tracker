@@ -1,0 +1,27 @@
+doctype 5
+html(lang='en')
+  head
+    title= title
+    link(href='/css/bootstrap.min.css', rel='stylesheet', type='text/css')
+    link(href='/css/bootstrap-responsive.min.css', rel='stylesheet', type='text/css')
+    script(src='/js/jquery.js')
+  body
+    .container
+      h1= title
+      table.table.table-striped.table-bordered
+        thead
+          tr
+            th Item
+            th Room
+            th Inventory Tag
+            th Serial Number
+            th Asset Tag
+        tbody
+          each item in items
+            tr
+              td
+                a(href=item.value.url)= item.key
+              td= item.value.room
+              td= item.value.inventory
+              td= item.value.serial
+              td= item.value.assetTag
