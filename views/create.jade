@@ -1,57 +1,67 @@
-doctype 5
-html(lang='en')
-  head
-    title= title
-    link(href='/css/bootstrap.min.css', rel='stylesheet', type='text/css')
-    link(href='/css/bootstrap-responsive.min.css', rel='stylesheet', type='text/css')
-    script(src='/js/jquery.js')
-    script(src='/js/bootstrap.min.js')
-  body
-    .container
+extends layout
+
+block append scripts
+  script(src='/js/validate.min.js')
+  script(src='/js/create.js')
+
+block content
+  .row
+    .span6
+      form(action='/create', method='post', name='create-item', id='create-item')
+        fieldset
+          legend New item
+          #fields
+            .field
+              label Inventory Tag
+              input#inventory.uniqueField(type='text', name='_id', placeholder='3SCAC0000000000', required, autofocus)
+            .field.field-removeable
+              label Manufacturer
+              input(type='text', name='manufacturer', placeholder='Apple')
+            .field.field-removeable
+              label Model
+              input(type='text', name='model', placeholder='iMac')
+            .field.field-removeable
+              label Current Room
+              input(type='number', name='room', min='100', max='345')
+            .field
+              label DOE Asset Tag
+              input#assetTag.uniqueField(type='text', name='assetTag', placeholder='DOE-AP0000000')
+            .field
+              label Serial Number
+              input#serial.uniqueField(type='text', name='serial')
+            .field.field-removeable
+              label Item Type
+              select#item-types(name='type')
+                option
+                option Desktop Computer
+                option Laptop Computer
+                option SMART Board
+                option Printer
+                option Tablet
+                option Scanner
+                option Camera
+                option Projector
+                option ELMO
+                option Server
+                option Kindle
+                option Hard Drive
+                option Television
+                option Computer Monitor
+          button.btn.btn-primary.btn-block.btn-large(type='submit') Submit
+    form.span6
+      legend Add an attribute to this item
       .row
-        .span12
-          h1= title
+        .span3
+          label Name
+          input(type='text', id='new-label', placeholder='Serial Number')
+        .span3
+          label Field Name
+          input(type='text', id='new-field', placeholder='serial')
       .row
         .span6
-          form(action='/create', method='post', name='create-item', id='create-item')
-            fieldset
-              legend New item
-              #fields
-                label Inventory Tag
-                input(type='text', name='_id', placeholder='3SCAC0000000000', required, autofocus)
-                label Manufacturer
-                input(type='text', name='manufacturer', placeholder='Apple', value='#{manufacturer || ''}')
-                label Model
-                input(type='text', name='model', placeholder='iMac', value='#{model || ''}')
-                label Current Room
-                input(type='number', name='room', min='100', max='345', value='#{room || ''}')
-                label DOE Asset Tag
-                input(type='text', name='assetTag', placeholder='DOE-AP0000000')
-                label Serial Number
-                input(type='text', name='serial')
-                label Item Type
-                select(name='type')
-                  option
-                  option Desktop Computer
-                  option Laptop Computer
-                  option SMART Board
-                  option Printer
-                  option Tablet
-              button.btn.btn-primary.btn-block.btn-large(type='submit') Submit
-        form.span6
-          legend Add an attribute to this item
-          .row
-            .span3
-              label Name
-              input(type='text', id='new-label', placeholder='Serial Number')
-            .span3
-              label Field Name
-              input(type='text', id='new-field', placeholder='serial')
-          .row
-            .span6
-              button#create-field.btn.btn-block(href='#', type='submit') Submit
-          .row
-            .span6
-              #messages
-    script(src='/js/validate.min.js')
-    script(src='/js/create.js')
+          .btn-group
+            button#create-field.btn(href='#', type='submit') Add Item Field
+            button#create-type.btn(href='#', type='submit') Add to List of Item Types
+      .row
+        .span6
+          #messages

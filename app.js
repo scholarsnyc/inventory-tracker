@@ -1,10 +1,10 @@
-var express = require('express');
-var http    = require('http');
-var cradle  = require('cradle');
-var _       = require('underscore');
-var couch   = require('./lib/parse-cloudant-url')(process.env.CLOUDANT_URL)
-
-var app = express();
+var express  = require('express'),
+    http     = require('http'),
+    _        = require('underscore'),
+    cradle   = require('cradle'),
+    parseURL = require('./lib/parse-cloudant-url'),
+    app      = express(),
+    db;
 
 app.configure(function(){
   app.set('title', 'Inventory Management')
@@ -21,50 +21,30 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler());
+  
+  var couch = new(cradle.Connection)(process.env.DEVELOPMENT_COUCH);
+  db = couch.database('inventory');
 });
 
-var couch = new(cradle.Connection)(couch.url, 443, {
+app.configure('production', function(){
+  var url = parseURL(process.env.CLOUDANT_URL);
+  var couch = new(cradle.Connection)(couch.url, 443, {
     secure: true,
     auth: _.omit(couch, 'url')
+  });
+  
+  db = couch.database('inventory');
 });
-
-var db = couch.database('inventory');
 
 app.get('/', function(req, res) {
   db.view('items/all', function (err, items) {
     if (err) res.status(500).send(err);
-    res.render('index', { title: 'Inventory Tracker', items: items });
+    res.render('index', { title: app.get('title'), items: items });
   });
 });
 
-var defaultItemValues = { title: 'Add an item', model: '', room: '', manufacturer: '' }
-
-app.get('/create', function(req, res){
-  res.render('create', defaultItemValues);
-});
-
-app.post('/create', function(req, res){
-  for (key in req.body) {
-    if (req.body[key] === "") delete req.body[key];
-  }
-  
-  db.save(req.body, function (err, item) {
-    if (err) res.status(500).send(err);
-    var nextItem = _.omit(item, ['_id', 'assetTag', 'serial']);
-    res.render('create', _.extend(defaultItemValues, nextItem));
-  });
-});
-
-app.get('/items/:item', function(req, res){
-  db.get(req.params.item, function (err, doc) {
-    if (err) res.status(404).send(err);
-    res.send(doc);
-  });
-});
-
-app.get('/js/jquery.js', function(req, res){
-  res.sendfile('./components/jquery/jquery.min.js');
-});
+require('./routes/scripts')(app, db);
+require('./routes/items')(app, db);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + "!");
