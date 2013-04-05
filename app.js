@@ -27,10 +27,10 @@ app.configure('development', function(){
 });
 
 app.configure('production', function(){
-  var url = parseURL(process.env.CLOUDANT_URL);
-  var couch = new(cradle.Connection)(url, 443, {
+  var cloudant = parseURL(process.env.CLOUDANT_URL);
+  var couch = new(cradle.Connection)(cloudant.url, 443, {
     secure: true,
-    auth: _.omit(couch, 'url')
+    auth: _.omit(cloudant, 'url')
   });
   
   db = couch.database('inventory');
