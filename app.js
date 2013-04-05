@@ -28,7 +28,7 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   var url = parseURL(process.env.CLOUDANT_URL);
-  var couch = new(cradle.Connection)(couch.url, 443, {
+  var couch = new(cradle.Connection)(url, 443, {
     secure: true,
     auth: _.omit(couch, 'url')
   });

@@ -3,3 +3,4 @@ node_modules
 items
 *.log
 components
+.DS_Store
