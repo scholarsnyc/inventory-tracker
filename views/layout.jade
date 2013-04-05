@@ -1,0 +1,24 @@
+doctype 5
+html(lang='en')
+  head
+    title= title
+    link(href='/css/bootstrap.min.css', rel='stylesheet', type='text/css')
+    link(href='/css/bootstrap-responsive.min.css', rel='stylesheet', type='text/css')
+  body
+    .container
+      .row
+        .span12
+          .navbar(style='margin-top: 1em;')
+            .navbar-inner
+              a.brand(href='#') Inventory
+              ul.nav
+                li
+                  a(href='/') Index
+                li
+                  a(href='/create') Add an Item
+          h1= title
+      block content
+      block scripts
+        script(src='/js/jquery.js')
+        script(src='/js/bootstrap.min.js')
+        script(src='/js/modernizr.js')
